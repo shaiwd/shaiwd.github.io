@@ -25,18 +25,25 @@ function 색추출기(colors) {
 }
 // display();
 document.querySelector("button").addEventListener("click", (e) => {
-  const text = document.querySelector("input").value;
+  const text = document.querySelector(".input1").value;
   // local storage 저장
   const todo객체 = {};
-  todo객체.text = document.querySelector("input").value;
+
+  todo객체.text = document.querySelector(".input1").value;
+  todo객체.content = document.querySelector(".input2").value;
+  todo객체.url = document.querySelector(".input3").value;
   todo객체.category = "todo";
   todo객체.id = Date.now();
+  todo객체.time = new Date();
+  todo객체.date = todo객체.time.toLocaleString();
   localStorage.setItem(todo객체.id, JSON.stringify(todo객체));
   // 새로운 태그 생성
-  const newTag = createTag(text, todo객체.id);
+  const newTag = createTag(todo객체);
   document.querySelector(".todo").appendChild(newTag);
   // input 값 삭제 (초기화)
-  document.querySelector("input").value = "";
+  document.querySelector(".input1").value = "";
+  document.querySelector(".input2").value = "";
+  document.querySelector(".input3").value = "";
 });
 // Todo 프로젝트 남은 기능
 // 1) 카테고리의 변화 저장 기능
@@ -66,15 +73,33 @@ boxes.forEach((box, i) => {
       localStorage.getItem(dragTarget.getAttribute("key"))
     );
     todo.category = e.currentTarget.getAttribute("category");
+    console.log(todo.category);
     localStorage.setItem(todo.id, JSON.stringify(todo));
   });
 });
 
-function createTag(text, key) {
+function createTag(todo객체, key) {
   // 새로운 p 태그요소를 생성
   const newTag = document.createElement("p");
-  newTag.innerHTML = text;
+  newTag.innerHTML = todo객체.text;
+
+  const 할일 = document.createElement("div");
+  할일.innerHTML = todo객체.content;
+  newTag.appendChild(할일);
+
+  const url = document.createElement("a");
+  url.href = "#";
+  url.target = "black";
+  url.innerHTML = todo객체.url;
+
+  newTag.appendChild(url);
+
+  const date = document.createElement("div");
+  date.innerHTML = todo객체.date;
+  newTag.appendChild(date);
+
   newTag.style.backgroundColor = 색추출기(colors);
+
   newTag.setAttribute("draggable", true);
   // p태그요소의 dragstart 이벤트 함수
   newTag.addEventListener("dragstart", (e) => {
@@ -92,7 +117,6 @@ function createTag(text, key) {
   });
   newTag.appendChild(deleteBtn);
   /*** 삭제버튼 생성 코드 - 끝 */
-
   // local storage 저장
   // 객체 상태로 저장...
   // 1) text : 할일 텍스트... 사용자 인풋에 적은 내용
