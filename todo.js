@@ -33,6 +33,7 @@ document.querySelector("button").addEventListener("click", (e) => {
   todo객체.content = document.querySelector(".input2").value;
   todo객체.url = document.querySelector(".input3").value;
   todo객체.category = "todo";
+  todo객체.color = colors;
   todo객체.id = Date.now();
   todo객체.time = new Date();
   todo객체.date = todo객체.time.toLocaleString();
@@ -88,7 +89,7 @@ function createTag(todo객체, key) {
   newTag.appendChild(할일);
 
   const url = document.createElement("a");
-  url.href = "#";
+  url.href = "https://www.naver.com/";
   url.target = "black";
   url.innerHTML = todo객체.url;
 
@@ -132,8 +133,8 @@ function createTag(todo객체, key) {
 function display() {
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
-    const todo = JSON.parse(localStorage.getItem(key));
     const color = 색추출기(colors);
+    const todo = JSON.parse(localStorage.getItem(key), color);
     const newTag = createTag(todo.text, todo.id);
     document.querySelector(`.${todo.category}`).appendChild(newTag);
   }
