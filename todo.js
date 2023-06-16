@@ -72,9 +72,9 @@ boxes.forEach((box, i) => {
     const todo = JSON.parse(
       localStorage.getItem(dragTarget.getAttribute("key"))
     );
-    todo.category = e.currentTarget.getAttribute("category");
-    console.log(todo.category);
-    localStorage.setItem(todo.id, JSON.stringify(todo));
+    // todo.category = e.currentTarget.getAttribute("category");
+    // console.log(todo.category);
+    // localStorage.setItem(todo.id, JSON.stringify(todo));
   });
 });
 
